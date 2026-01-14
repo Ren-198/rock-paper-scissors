@@ -1,40 +1,12 @@
 
-
-
-
-
-
 function getComputerChoice() {
     const choices = ['Rock', 'Paper', 'Scissors'];
     let index = Math.floor(Math.random() * 3);
     return choices[index];
 }
 
-function playRound(humanChoice, computerChoice) {
-    humanChoice = humanChoice.toLowerCase();
-    
-
-    if (humanChoice === computerChoice) {
-        return "It's a tie! Nobody wins this round.";
-    }
-    else {
-        if ((humanChoice === "rock" && computerChoice === "scissors" ||
-            humanChoice === "paper" && computerChoice === "rock" ||
-            humanChoice === "scissors" && computerChoice === "paper")){
-                humanScore++;
-
-                return `You win! ${humanChoice} beats ${computerChoice}.`;
-            }
-        else {
-            computerScore++;
-            return `You lose! ${computerChoice} beats ${humanChoice}`;
-        }
-        
-    }
-
-}
-
 function playGame(){
+
     const container = document.querySelector("#container");
 
     const scoreCont = document.querySelector("#scoreRow");
@@ -43,15 +15,19 @@ function playGame(){
 
     let cScore = document.querySelector("#cScore");
 
+    let result = document.querySelector("#result");
+
     let rock = document.createElement("button");
     rock.setAttribute("id", "rock");
+    rock.textContent = "Rock";
 
     let paper = document.createElement("button");
     paper.setAttribute("id", "paper");
+    paper.textContent = "Paper";
 
     let scissor = document.createElement("button");
     scissor.setAttribute('id', 'scissor');
-
+    scissor.textContent = "Scissor";
         
 
     container.appendChild(rock);
@@ -65,12 +41,21 @@ function playGame(){
 
     let computerScore = 0;
     cScore.textContent = `Computer Score: ${computerScore}`;
+
+    let gameOver = false;
     
     container.addEventListener('click', (event) => {
 
+        if (gameOver) return;
+
         let target = event.target;
 
-            switch(target.id) {
+        if (!target.matches("button")) return;
+
+        
+
+
+        switch(target.id) {
                 case 'rock':
                     playerSelection = "Rock";
                     break;
@@ -80,17 +65,19 @@ function playGame(){
                     break;
 
                 case 'scissor':
-                    playerSelection = "Scissor";
+                    playerSelection = "Scissors";
                     break;
 
             }
-            
+
+        playRound(playerSelection, getComputerChoice());
+
         })
 
     function playRound(humanChoice, computerChoice) {
 
         if (humanChoice === computerChoice) {
-            return "It's a tie! Nobody wins this round.";
+            result.textContent = "It's a tie! Nobody wins this round.";
         }
         else {
             if ((humanChoice === "Rock" && computerChoice === "Scissors" ||
@@ -98,24 +85,26 @@ function playGame(){
                 humanChoice === "Scissors" && computerChoice === "Paper")){
                     humanScore++;
                     hScore.textContent = `Your Score: ${humanScore}`;
-                    return `You win! ${humanChoice} beats ${computerChoice}.`;
+                    result.textContent = `You win! ${humanChoice} beats ${computerChoice}.`;
                 }
             else {
                 computerScore++;
                 cScore.textContent = `Computer Score: ${computerScore}`;
-                return `You lose! ${computerChoice} beats ${humanChoice}`;
+                result.textContent = `You lose! ${computerChoice} beats ${humanChoice}`;
             }
             
         }
-    }
-    
-    
-    for (let i = 0; i <= 5; i++) {
-        playRound(playerSelection, getComputerChoice());
-    }
 
+        if (humanScore === 5 || computerScore === 5) {
+            gameOver = true;
 
-    
+            if (humanScore === 5) {
+                result.textContent = "You won the game!";
+            } else {
+                result.textContent = "The Computer won the game.";
+            }
+        }
+    }
 
 }
 
