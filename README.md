@@ -41,6 +41,11 @@ It’s a good beginner project for understanding how JavaScript interacts with H
 No installation required.
 
 ---
+## Visual Demo
+
+https://github.com/user-attachments/assets/928a5a1b-f170-418a-b58c-50e5340f2143
+
+---
 
 ## Technologies Used
 
